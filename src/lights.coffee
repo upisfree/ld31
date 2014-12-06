@@ -4,7 +4,7 @@ darkmask = null
 createLightings = ->
   darkmask = new DarkMask
     lights: currentLevel.lights
-    color: 'rgba(0,0,0,0.8)'
+    color: 'rgba(0, 0, 0, 1)'
 
   for i in currentLevel.lights
     currentLevel.lightings.push new Lighting

@@ -26,16 +26,34 @@
             return resourceCache[url];
         }
         else {
-            var img = new Image();
-            img.onload = function() {
-                resourceCache[url] = img;
-                
-                if(isReady()) {
-                    readyCallbacks.forEach(function(func) { func(); });
-                }
-            };
-            resourceCache[url] = false;
-            img.src = url;
+            if (url.match(/png|gif|jpg/)) // yeah, very simple regex, I know
+            {
+                var img = new Image();
+                img.onload = function() {
+                    resourceCache[url] = img;
+                    
+                    if(isReady()) {
+                        readyCallbacks.forEach(function(func) { func(); });
+                    }
+                };
+                resourceCache[url] = false;
+                img.src = url;
+            }
+            else // hope, that this is sound
+            {
+                resourceCache[url] = false;
+
+                var sound = new Howl({
+                    urls: [url],
+                    onload: function() {
+                      resourceCache[url] = this;
+
+                      if(isReady()) {
+                          readyCallbacks.forEach(function(func) { func(); });
+                      }
+                    }
+                });
+            }
         }
     }
 

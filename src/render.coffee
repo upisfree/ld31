@@ -13,7 +13,7 @@ setup = ->
 render = ->
   w = canvas.width
   h = canvas.height
-  ctx.fillStyle = '#000'
+  #ctx.fillStyle = '#000'
   ctx.fillRect 0, 0, w, h
   ctx.save()
   ctx.fillStyle = 'white'
@@ -31,12 +31,9 @@ render = ->
     ctx.drawImage resources.get(obj.texture), topleft.x, topleft.y, bottomright.x - topleft.x,  bottomright.y - topleft.y
     ctx.restore()
     ctx.save()
-    ctx.lineWidth = 1
-    ctx.strokeStyle = '#778'
 
     ctx.beginPath()
     obj.path ctx
-    ctx.stroke()
     ctx.restore()
 
   ctx.globalCompositeOperation = 'lighter'

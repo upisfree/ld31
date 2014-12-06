@@ -19,15 +19,6 @@ canvas.height = window.innerHeight
 path =
   assets: '../assets/'
 
-#####
-
-metal = new Image()
-metal.onload = ->
-  dirty = true
-metal.src = '../assets/galvanized-plate.jpg'
-
-#####
-
 init = (levelNumber = 0) ->
   level.load levelNumber
 

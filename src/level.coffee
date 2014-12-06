@@ -14,3 +14,5 @@ level =
     level.get i
     createLightings()
     setup()
+
+    currentLevel.action()
