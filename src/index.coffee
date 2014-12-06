@@ -15,6 +15,10 @@ ctx = canvas.getContext '2d'
 canvas.width  = window.innerWidth
 canvas.height = window.innerHeight
 
+# Paths
+path =
+  assets: '../assets/'
+
 #####
 
 metal = new Image()
@@ -24,7 +28,7 @@ metal.src = '../assets/galvanized-plate.jpg'
 
 #####
 
-init = (levelNumber) ->
+init = (levelNumber = 0) ->
   level.load levelNumber
 
   `requestAnimFrame(function loop () {

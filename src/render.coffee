@@ -27,8 +27,8 @@ render = ->
     bounds = obj.bounds()
     topleft     = bounds.topleft
     bottomright = bounds.bottomright
-    
-    ctx.drawImage metal, topleft.x, topleft.y, bottomright.x - topleft.x,  bottomright.y - topleft.y
+
+    ctx.drawImage resources.get(obj.texture), topleft.x, topleft.y, bottomright.x - topleft.x,  bottomright.y - topleft.y
     ctx.restore()
     ctx.save()
     ctx.lineWidth = 1

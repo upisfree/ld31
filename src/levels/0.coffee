@@ -3,12 +3,15 @@ level.add
     new RectangleObject # потолок
       topleft: new Vec2 0, 150
       bottomright: new Vec2 canvas.width, 175
+      texture: path.assets + 'level-0/background.png'
     new RectangleObject # пол
       topleft: new Vec2 0, canvas.height - 175
       bottomright: new Vec2 canvas.width, canvas.height - 150
+      texture: path.assets + 'level-0/background.png'
     new RectangleObject # игрок
-      topleft: new Vec2 100, canvas.height - 300
-      bottomright: new Vec2 150, canvas.height - 175
+      topleft: new Vec2 100, canvas.height - 500
+      bottomright: new Vec2 250, canvas.height - 175
+      texture: path.assets + 'player.png'
   ]
   lights: [
     new Lamp
