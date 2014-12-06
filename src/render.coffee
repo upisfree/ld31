@@ -23,9 +23,12 @@ render = ->
     ctx.beginPath()
     obj.path ctx
     ctx.clip()
+
     bounds = obj.bounds()
-    topleft = bounds.topleft
-    ctx.drawImage metal, topleft.x, topleft.y
+    topleft     = bounds.topleft
+    bottomright = bounds.bottomright
+    
+    ctx.drawImage metal, topleft.x, topleft.y, bottomright.x - topleft.x,  bottomright.y - topleft.y
     ctx.restore()
     ctx.save()
     ctx.lineWidth = 1
