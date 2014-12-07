@@ -9,20 +9,13 @@ module.exports = (grunt) ->
         files:
           'build/<%= pkg.name %>.js': [
             'src/utils.coffee'
-            'src/index.coffee'
-            'src/level.coffee'
-            'src/lights.coffee'
-            'src/render.coffee'
-            'src/levels/0.coffee'
-            'src/levels/1.coffee'
-            'src/levels/2.coffee'
             'src/start.coffee'            
           ]
 
     uglify:
       build:
         src: 'build/<%= pkg.name %>.js'
-        dest: 'build/<%= pkg.name %>.min.js'
+        dest: 'build/<%= pkg.name %>.js'
 
     watch:
       coffee:
