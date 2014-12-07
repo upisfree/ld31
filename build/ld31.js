@@ -158,108 +158,74 @@
   level.add({
     objects: [
       new RectangleObject({
-        topleft: new Vec2(canvas.width / 1.5 - 325 / 2, canvas.height - 275),
-        bottomright: new Vec2(canvas.width / 1.5 + 325 / 2, canvas.height - 175),
-        texture: path.assets + 'player-lying.png'
+        topleft: new Vec2(canvas.width - 150, canvas.height / 2 + 450 / 2),
+        bottomright: new Vec2(canvas.width, canvas.height / 2 - 450 / 2),
+        texture: path.assets + 'exit.png'
       })
     ],
     lights: [
       new Lamp({
-        color: 'rgba(189, 0, 0, 0.9)',
-        position: new Vec2(canvas.width / 1.5, 176),
-        distance: 300,
-        diffuse: 0.8,
-        radius: 0,
-        samples: 1,
-        roughness: 1,
-        angle: -26.75
-      }), new Lamp({
-        color: 'rgba(250, 220, 150, 0.8)',
-        position: new Vec2(canvas.width / 5, 176),
-        distance: 1,
-        diffuse: 0.8,
-        radius: 0,
-        samples: 1,
-        roughness: 1,
-        angle: -26.75
-      }), new Lamp({
-        color: 'rgba(250, 220, 150, 0.8)',
-        position: new Vec2(canvas.width / 2, 176),
-        distance: 1,
-        diffuse: 0.8,
-        radius: 0,
-        samples: 1,
-        roughness: 1,
-        angle: -26.75
-      }), new Lamp({
-        color: 'rgba(250, 220, 150, 0.8)',
-        position: new Vec2(canvas.width / 1.25, 176),
-        distance: 1,
-        diffuse: 0.8,
-        radius: 0,
-        samples: 1,
-        roughness: 1,
-        angle: -26.75
-      }), new Lamp({
         color: 'rgba(255, 255, 255, 1)',
-        position: new Vec2(canvas.width / 2, canvas.height / 2),
-        distance: 1,
-        radius: 10
+        position: new Vec2(20, canvas.height - 20),
+        distance: 100,
+        radius: 50
+      }), new Lamp({
+        color: "rgba(" + (Math.randomInt(0, 255)) + ", " + (Math.randomInt(0, 255)) + ", " + (Math.randomInt(0, 255)) + ", " + (Math.random()) + ")",
+        position: new Vec2(Math.randomInt(0, canvas.width), Math.randomInt(0, canvas.height)),
+        distance: Math.randomInt(100, 300),
+        diffuse: 0.8,
+        radius: Math.randomInt(50, 100)
+      }), new Lamp({
+        color: "rgba(" + (Math.randomInt(0, 255)) + ", " + (Math.randomInt(0, 255)) + ", " + (Math.randomInt(0, 255)) + ", " + (Math.random()) + ")",
+        position: new Vec2(Math.randomInt(0, canvas.width), Math.randomInt(0, canvas.height)),
+        distance: Math.randomInt(100, 300),
+        diffuse: 0.8,
+        radius: Math.randomInt(50, 100)
+      }), new Lamp({
+        color: "rgba(" + (Math.randomInt(0, 255)) + ", " + (Math.randomInt(0, 255)) + ", " + (Math.randomInt(0, 255)) + ", " + (Math.random()) + ")",
+        position: new Vec2(Math.randomInt(0, canvas.width), Math.randomInt(0, canvas.height)),
+        distance: Math.randomInt(100, 300),
+        diffuse: 0.8,
+        radius: Math.randomInt(50, 100)
+      }), new Lamp({
+        color: "rgba(" + (Math.randomInt(0, 255)) + ", " + (Math.randomInt(0, 255)) + ", " + (Math.randomInt(0, 255)) + ", " + (Math.random()) + ")",
+        position: new Vec2(Math.randomInt(0, canvas.width), Math.randomInt(0, canvas.height)),
+        distance: Math.randomInt(100, 300),
+        diffuse: 0.8,
+        radius: Math.randomInt(50, 100)
       })
     ],
     action: function() {
-      var blink, siren;
-      blink = setInterval(function() {
-        if (Math.random() > 0.5) {
-          return currentLevel.lights[0].distance = 1;
-        } else {
-          return currentLevel.lights[0].distance = 300;
+      return window.onkeydown = function(e) {
+        var distance, dx, dy, i, light, player, _i, _ref;
+        console.log(e);
+        switch (e.keyCode) {
+          case 38:
+            currentLevel.lights[0].position.y -= 10;
+            break;
+          case 37:
+            currentLevel.lights[0].position.x -= 10;
+            break;
+          case 40:
+            currentLevel.lights[0].position.y += 10;
+            break;
+          case 39:
+            currentLevel.lights[0].position.x += 10;
         }
-      }, 2000);
-      siren = resources.get(path.assets + 'level-0/siren.mp3');
-      siren.play();
-      return setTimeout(function() {
-        var bgmusic;
-        clearInterval(blink);
-        currentLevel.lights[0].distance = 1;
-        bgmusic = resources.get(path.assets + 'level-0/dimple-pinch-neat.mp3');
-        bgmusic.volume(0.5);
-        bgmusic.loop = true;
-        bgmusic.play();
-        return setTimeout(function() {
-          currentLevel.lights[1].distance = 300;
-          currentLevel.lights[2].distance = 300;
-          currentLevel.lights[3].distance = 300;
-          currentLevel.lights[4].distance = 50;
-          currentLevel.objects[0].texture = path.assets + 'null.png';
-          currentLevel.objects.push(new RectangleObject({
-            topleft: new Vec2(canvas.width / 1.5 - 150 / 2, canvas.height - 500),
-            bottomright: new Vec2(canvas.width / 1.5 + 150 / 2, canvas.height - 175),
-            texture: path.assets + 'player.png'
-          }));
-          return window.onkeydown = function(e) {
-            switch (e.keyCode) {
-              case 38:
-                currentLevel.lights[4].position.y -= 10;
-                break;
-              case 37:
-                currentLevel.lights[4].position.x -= 10;
-                break;
-              case 40:
-                currentLevel.lights[4].position.y += 10;
-                break;
-              case 39:
-                currentLevel.lights[4].position.x += 10;
-            }
-            if ((currentLevel.lights[4].position.x + 10 >= currentLevel.objects[1].topleft.x && currentLevel.lights[4].position.x <= currentLevel.objects[1].bottomright.x) && (currentLevel.lights[4].position.y + 10 >= currentLevel.objects[1].topleft.y && currentLevel.lights[4].position.y <= currentLevel.objects[1].bottomright.y)) {
-              $('#level-0-message').fadeIn('fast');
-              return setTimeout(function() {
-                return $('#level-0-message').fadeOut('fast');
-              }, 5000);
-            }
-          };
-        }, 2000);
-      }, 8000);
+        for (i = _i = 1, _ref = currentLevel.lights.length - 1; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
+          player = currentLevel.lights[0];
+          light = currentLevel.lights[i];
+          dx = (player.position.x + player.distance) - (light.position.x + light.distance);
+          dy = (player.position.y + player.distance) - (light.position.y + light.distance);
+          distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < player.distance + light.distance) {
+            console.log('collision detected');
+          }
+        }
+        if ((currentLevel.lights[0].position.x + 100 >= currentLevel.objects[0].topleft.x && currentLevel.lights[0].position.x <= currentLevel.objects[0].bottomright.x) && (currentLevel.lights[0].position.y + 100 >= currentLevel.objects[0].topleft.y && currentLevel.lights[0].position.y <= currentLevel.objects[0].bottomright.y)) {
+          return console.log('finish collision');
+        }
+      };
     }
   });
 
@@ -301,7 +267,7 @@
     ]
   });
 
-  resources.load([path.assets + 'player.png', path.assets + 'player-lying.png', path.assets + 'null.png', path.assets + 'level-0/background.png', path.assets + 'level-0/siren.mp3', path.assets + 'level-0/dimple-pinch-neat.mp3']);
+  resources.load([path.assets + 'exit.png']);
 
   resources.onReady(init);
 

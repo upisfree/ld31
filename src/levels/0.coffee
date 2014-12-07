@@ -1,103 +1,64 @@
 level.add
   objects: [
     new RectangleObject # игрок лежащий
-      topleft: new Vec2 canvas.width / 1.5 - 325 / 2, canvas.height - 275 # 150 is player width
-      bottomright: new Vec2 canvas.width / 1.5 + 325 / 2, canvas.height - 175
-      texture: path.assets + 'player-lying.png'
+      topleft: new Vec2 canvas.width - 150, canvas.height / 2 + 450 / 2 # 150 is player width
+      bottomright: new Vec2 canvas.width, canvas.height / 2 - 450 / 2
+      texture: path.assets + 'exit.png'
   ]
   lights: [
-    new Lamp # red signal lamp
-      color: 'rgba(189, 0, 0, 0.9)'
-      position: new Vec2 canvas.width / 1.5, 176
-      distance: 300
-      diffuse: 0.8
-      radius: 0
-      samples: 1
-      roughness: 1
-      angle: -26.75
-    new Lamp # light
-      color: 'rgba(250, 220, 150, 0.8)'
-      position: new Vec2 canvas.width / 5, 176
-      distance: 1
-      diffuse: 0.8
-      radius: 0
-      samples: 1
-      roughness: 1
-      angle: -26.75
-    new Lamp # light
-      color: 'rgba(250, 220, 150, 0.8)'
-      position: new Vec2 canvas.width / 2, 176
-      distance: 1
-      diffuse: 0.8
-      radius: 0
-      samples: 1
-      roughness: 1
-      angle: -26.75
-    new Lamp # light
-      color: 'rgba(250, 220, 150, 0.8)'
-      position: new Vec2 canvas.width / 1.25, 176
-      distance: 1
-      diffuse: 0.8
-      radius: 0
-      samples: 1
-      roughness: 1
-      angle: -26.75
-    new Lamp # light
+    new Lamp # player
       color: 'rgba(255, 255, 255, 1)'
-      position: new Vec2 canvas.width / 2, canvas.height / 2
-      distance: 1
-      radius: 10
+      position: new Vec2 20, canvas.height - 20
+      distance: 100
+      radius: 50
+    new Lamp # light
+      color: "rgba(#{Math.randomInt 0, 255}, #{Math.randomInt 0, 255}, #{Math.randomInt 0, 255}, #{Math.random()})"
+      position: new Vec2 Math.randomInt(0, canvas.width), Math.randomInt(0, canvas.height)
+      distance: Math.randomInt 100, 300
+      diffuse: 0.8
+      radius: Math.randomInt 50, 100
+    new Lamp # light
+      color: "rgba(#{Math.randomInt 0, 255}, #{Math.randomInt 0, 255}, #{Math.randomInt 0, 255}, #{Math.random()})"
+      position: new Vec2 Math.randomInt(0, canvas.width), Math.randomInt(0, canvas.height)
+      distance: Math.randomInt 100, 300
+      diffuse: 0.8
+      radius: Math.randomInt 50, 100
+    new Lamp # light
+      color: "rgba(#{Math.randomInt 0, 255}, #{Math.randomInt 0, 255}, #{Math.randomInt 0, 255}, #{Math.random()})"
+      position: new Vec2 Math.randomInt(0, canvas.width), Math.randomInt(0, canvas.height)
+      distance: Math.randomInt 100, 300
+      diffuse: 0.8
+      radius: Math.randomInt 50, 100
+    new Lamp # light
+      color: "rgba(#{Math.randomInt 0, 255}, #{Math.randomInt 0, 255}, #{Math.randomInt 0, 255}, #{Math.random()})"
+      position: new Vec2 Math.randomInt(0, canvas.width), Math.randomInt(0, canvas.height)
+      distance: Math.randomInt 100, 300
+      diffuse: 0.8
+      radius: Math.randomInt 50, 100
   ]
   action: ->
-    blink = setInterval ->
-      if Math.random() > 0.5
-        currentLevel.lights[0].distance = 1
-      else
-        currentLevel.lights[0].distance = 300
-    , 2000
+    # moving
+    window.onkeydown = (e) ->
+      console.log e
+      switch e.keyCode
+        when 38 then currentLevel.lights[0].position.y -= 10
+        when 37 then currentLevel.lights[0].position.x -= 10
+        when 40 then currentLevel.lights[0].position.y += 10
+        when 39 then currentLevel.lights[0].position.x += 10
 
-    siren = resources.get path.assets + 'level-0/siren.mp3'
-    siren.play()
+      for i in [1..currentLevel.lights.length - 1]
+        player = currentLevel.lights[0]
+        light  = currentLevel.lights[i]
 
-    setTimeout ->
-      # off blinking
-      clearInterval blink
-      currentLevel.lights[0].distance = 1
+        dx = (player.position.x + player.distance) - (light.position.x + light.distance)
+        dy = (player.position.y + player.distance) - (light.position.y + light.distance)
+        distance = Math.sqrt dx * dx + dy * dy
 
-      bgmusic = resources.get path.assets + 'level-0/dimple-pinch-neat.mp3'
-      bgmusic.volume 0.5
-      bgmusic.loop = true
-      bgmusic.play()
+        if distance < player.distance + light.distance # collision with light
+          console.log 'collision detected'
 
-      setTimeout ->
-        # on lights
-        currentLevel.lights[1].distance = 300
-        currentLevel.lights[2].distance = 300
-        currentLevel.lights[3].distance = 300
-        currentLevel.lights[4].distance = 50
-
-        currentLevel.objects[0].texture = path.assets + 'null.png'
-        currentLevel.objects.push new RectangleObject
-          topleft: new Vec2 canvas.width / 1.5 - 150 / 2, canvas.height - 500
-          bottomright: new Vec2 canvas.width / 1.5 + 150 / 2, canvas.height - 175
-          texture: path.assets + 'player.png'
-
-        # moving
-        window.onkeydown = (e) ->
-          switch e.keyCode
-            when 38 then currentLevel.lights[4].position.y -= 10
-            when 37 then currentLevel.lights[4].position.x -= 10
-            when 40 then currentLevel.lights[4].position.y += 10
-            when 39 then currentLevel.lights[4].position.x += 10
-
-          if (currentLevel.lights[4].position.x + 10 >= currentLevel.objects[1].topleft.x and
-             currentLevel.lights[4].position.x <= currentLevel.objects[1].bottomright.x) and
-             (currentLevel.lights[4].position.y + 10 >= currentLevel.objects[1].topleft.y and
-             currentLevel.lights[4].position.y <= currentLevel.objects[1].bottomright.y)
-            $('#level-0-message').fadeIn 'fast'
-          
-            setTimeout ->
-              $('#level-0-message').fadeOut('fast');
-            , 5000
-      , 2000
-    , 8000
+      if (currentLevel.lights[0].position.x + 100 >= currentLevel.objects[0].topleft.x and
+         currentLevel.lights[0].position.x <= currentLevel.objects[0].bottomright.x) and
+         (currentLevel.lights[0].position.y + 100 >= currentLevel.objects[0].topleft.y and
+         currentLevel.lights[0].position.y <= currentLevel.objects[0].bottomright.y)
+        console.log 'finish collision'
